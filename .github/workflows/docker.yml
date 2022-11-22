@@ -25,7 +25,7 @@ jobs:
       run: docker push agusrodri/cifar-100-front:latest
     - name: Build docker backend
       run: |
-        cd backend/FLASK API/flask-api
+        cd backend
         docker build . --tag=agusrodri/cifar-100-back:latest
     - name: Push the Docker image
       run: docker push agusrodri/cifar-100-back:latest
