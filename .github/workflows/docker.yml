@@ -1,0 +1,31 @@
+name: Docker build
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build docker frontend
+      run: |
+        cd front
+        docker build . --tag=agusrodri/cifar-100-front:latest
+    - uses: docker/login-action@v1 
+      with:
+        username: ${{ secrets.DOCKER_LOGIN_USERNAME }}
+        password: ${{ secrets.DOCKER_LOGIN_PASSWORD }}
+    - name: Push the Docker image
+      run: docker push agusrodri/cifar-100-front:latest
+    - name: Build docker backend
+      run: |
+        cd proyecto-redes-neuronales
+        docker build . --tag=agusrodri/cifar-100-back:latest
+    - name: Push the Docker image
+      run: docker push agusrodri/cifar-100-back:latest
