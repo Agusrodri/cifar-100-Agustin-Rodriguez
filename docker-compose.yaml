@@ -1,18 +1,18 @@
 version: "3"
 services:
   backend:
-    image: fast_api_app
+    image: agusrodri/cifar-100-back:latest
     #container_name: backend
     volumes:
-      - ./fast_api:/src
+      - ./cifar-100-back:/src
     ports:
       - "8000:8000"
 
   frontend:
-    image: streamlit
+    image: agusrodri/cifar-100-front:latest
     #container_name: frontend
     volumes:
-      - ./streamlit:/src
+      - ./cifar-100-front:/src
     ports:
       - "8001:8001"
 
