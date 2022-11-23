@@ -6,4 +6,4 @@ WORKDIR src
 
 EXPOSE 8001:8001
 
-CMD [ "py", "-m" , "http.server", "8001" ]
+CMD [ "python3", "-m" , "http.server", "8001" ]
