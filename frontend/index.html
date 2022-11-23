@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Perros y Gatos</title>
+  <title>Clasificador cifar-100</title>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -27,17 +27,32 @@
 
     <div class="b-example-divider"></div>
 
-    <div class="container mt-5">
+    <div class="container mt-5 mx-5">
       <div class="row">
-        <div class="col-12 col-md-4 offset-md-4 text-center">
+        <div class="col-1 col-md-4 offset-md-4 text-center">
           <video id="video" playsinline autoplay style="width: 1px;"></video>
           <button class="btn btn-primary mb-2" id="cambiar-camara" onclick="cambiarCamara();">Cambiar camara</button>
           <canvas id="canvas" width="400" height="400" style="max-width: 100%;"></canvas>
-          <canvas id="otrocanvas" width="224" height="224" style="display: none"></canvas>
-          <div id="resultado"></div>
+          <canvas id="otrocanvas" width="224" height="224" style="display:none; margin-left: 20%;"></canvas>
+          <button class="btn btn-primary mb-2" id="capturar" onclick="capturarCamara();"
+            style="margin-top: 3%;">Capturar</button>
+          <button class="btn btn-primary mb-2" id="predecirButton" onclick="enviarPrediccion();" align="center"
+            style="display: none; margin-left: 30%;">Realizar
+            predicción</button>
         </div>
+        <div class="col-8 col-md-4 offset-md-4 text-center" style="margin-left:80%; margin-top: -30%;">
+          <h2 id="texto-resultados">Resultados de predicción</h2>
+          <hr>
+          <p id="resultado1" style="font-size: 25px;"></p>
+          <p id="resultado2" style="font-size: 25px;"></p>
+          <p id="resultado3" style="font-size: 25px;"></p>
+          <p id="resultado4" style="font-size: 25px;"></p>
+          <p id="resultado5" style="font-size: 25px;"></p>
+        </div>
+
       </div>
     </div>
+
 
     <div class="b-example-divider"></div>
 
@@ -56,9 +71,15 @@
     var video = document.getElementById("video");
     var canvas = document.getElementById("canvas");
     var otrocanvas = document.getElementById("otrocanvas");
+    var predecirButton = document.getElementById("predecirButton");
+    var capturar = document.getElementById("capturar");
     var ctx = canvas.getContext("2d");
     var currentStream = null;
     var facingMode = "user";
+    var capturado = false;
+    var resultadoArray = []
+    var resultadoArrayToShow = []
+    var textoResultado = document.getElementById("texto-resultados");
 
     var modelo = null;
 
@@ -70,6 +91,17 @@
 
     window.onload = function () {
       mostrarCamara();
+    }
+
+    function capturarCamara() {
+      resample_single(canvas, 224, 224, otrocanvas);
+      otrocanvas.style.display = "flex";
+      predecirButton.style.display = "block";
+      capturar.innerHTML = "Capturar nuevamente"
+    }
+
+    function enviarPrediccion() {
+      predecir();
     }
 
     function mostrarCamara() {
@@ -86,7 +118,6 @@
             currentStream = stream;
             video.srcObject = currentStream;
             procesarCamara();
-            predecir();
           })
           .catch(function (err) {
             alert("No se pudo utilizar la camara :(");
@@ -114,7 +145,6 @@
         }
       };
 
-
       navigator.mediaDevices.getUserMedia(opciones)
         .then(function (stream) {
           currentStream = stream;
@@ -131,14 +161,14 @@
     }
 
     function predecir() {
+
       if (true) {
-        resample_single(canvas, 224, 224, otrocanvas);
 
         //Hacer la predicción
         var ctx2 = otrocanvas.getContext("2d");
         var imgData = ctx2.getImageData(0, 0, 224, 224);
-        var tfImage = tf.browser.fromPixels(imgData);
-        var tfResizedImage = tfImage.reshape([1, 224, 224, 3]);
+        /* var tfImage = tf.browser.fromPixels(imgData);
+        var tfResizedImage = tfImage.reshape([1, 224, 224, 3]); */
         const image64 = otrocanvas.toDataURL("image/jpeg");
         const image64String = String(image64).split("base64,")[1]
 
@@ -151,15 +181,33 @@
         })
           .then((response) => response.json())
           .then((result) => {
+            resultadoArray = result;
+            console.log(resultadoArray)
+
+            resultadoArray.forEach((resultadoArr) => {
+
+              const label = resultadoArr['label']
+              const prob = resultadoArr['prob']
+
+              resultadoArrayToShow.push({
+                label: label,
+                prob: prob
+              })
+            })
+            console.log(resultadoArrayToShow)
             console.log('Success:', result);
-            document.getElementById("resultado").innerHTML = result[0]['label'];
+            document.getElementById("resultado1").innerHTML = `${result[0]['label']} - ${result[0]['prob']}`;
+            document.getElementById("resultado2").innerHTML = `${result[1]['label']} - ${result[1]['prob']}`;
+            document.getElementById("resultado3").innerHTML = `${result[2]['label']} - ${result[2]['prob']}`;
+            document.getElementById("resultado4").innerHTML = `${result[3]['label']} - ${result[3]['prob']}`;
+            document.getElementById("resultado5").innerHTML = `${result[4]['label']} - ${result[4]['prob']}`;
           })
           .catch((error) => {
             console.error('Error:', error);
           });
+
       }
 
-      setTimeout(predecir, 150);
     }
 
     /**
