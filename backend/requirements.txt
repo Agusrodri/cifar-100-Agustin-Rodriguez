@@ -5,3 +5,4 @@ efficientnet
 numpy
 pandas
 pandas
+opencv-python
