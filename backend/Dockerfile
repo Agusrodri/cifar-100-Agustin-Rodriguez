@@ -4,7 +4,7 @@ COPY . /src
 
 WORKDIR src
 
-EXPOSE 8000:8000
+EXPOSE 8002:8002
 
 RUN pip install -r requirements.txt
 

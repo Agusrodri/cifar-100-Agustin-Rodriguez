@@ -6,7 +6,7 @@ services:
     volumes:
       - ./cifar-100-back:/src
     ports:
-      - "8000:8000"
+      - "8002:8002"
 
   frontend:
     image: agusrodri/cifar-100-front:latest
