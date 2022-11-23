@@ -6,5 +6,7 @@
 ###### `py -m "http.server" 8000` or `python3 -m "http.server" 8000`
 ###### You can change the port number as you like
 ## How to run back end
-###### To run back end, make a cd to the "backend" folder and execute the following command:
+###### Before running, make a cd to the "backend" folder and install dependencies with the following command:
+###### `pip install -r requirements.txt`
+###### To run back end, make sure you are in the "backend" folder directory and execute the following command:
 ###### `python app.py` or `python3 app.py` 
