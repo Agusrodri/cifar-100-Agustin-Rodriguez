@@ -3,16 +3,16 @@ services:
   backend:
     image: agusrodri/cifar-100-back:latest
     #container_name: backend
-    volumes:
-      - ./cifar-100-back:/src
+    #volumes:
+    #  - ./cifar-100-back:/src
     ports:
       - "8002:8002"
 
   frontend:
     image: agusrodri/cifar-100-front:latest
     #container_name: frontend
-    volumes:
-      - ./cifar-100-front:/src
+    #volumes:
+    #  - ./cifar-100-front:/src
     ports:
       - "8001:8001"
 
