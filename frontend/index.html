@@ -172,7 +172,7 @@
         const image64 = otrocanvas.toDataURL("image/jpeg");
         const image64String = String(image64).split("base64,")[1]
 
-        fetch('http://0.0.0.0:8002/upload', {
+        fetch('http://backend:8002/upload', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
