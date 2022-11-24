@@ -21,8 +21,8 @@ jobs:
       with:
         username: ${{ secrets.DOCKER_LOGIN_USERNAME }}
         password: ${{ secrets.DOCKER_LOGIN_PASSWORD }}
-    - name: Push the Docker image
-      run: docker push agusrodri/cifar-100-front:latest
+    #- name: Push the Docker image
+    #  run: docker push agusrodri/cifar-100-front:latest
     - name: Build docker backend
       run: |
         cd backend
