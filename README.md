@@ -1,6 +1,6 @@
 # Instructions for use
 ## Run with docker
-###### Within the base directory of the proyect (where the docker-compose.yaml file is located) run the following command:
+###### Within the base directory of the project (where the docker-compose.yaml file is located) run the following command:
 ###### `docker-compose up`
 ## Run locally
 ### Python version required 
