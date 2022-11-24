@@ -1,4 +1,4 @@
-# Instructions for use
+# Usage instructions
 ## Run with docker
 ###### Within the base directory of the project (where the docker-compose.yaml file is located) run the following command:
 ###### `docker-compose up`
